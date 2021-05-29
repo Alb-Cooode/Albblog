@@ -1,0 +1,22 @@
+spring:
+  thymeleaf:
+    mode: HTML
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
+
+mybatis:
+  type-aliases-package: com.albert.blog.pojo
+  mapper-locations: classpath:albert/blog/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+server:
+  servlet:
+    context-path: /blog
+# 评论头像
+comment.img : /images/avatar.png
+# 留言头像
+messages.img : /images/avatar.png

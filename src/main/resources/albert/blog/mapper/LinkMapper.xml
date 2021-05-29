@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--友链数据访问接口映射-->
+<!--namespace:绑定一个对应的Dao/Mapper接口-->
+<mapper namespace="com.albert.blog.mapper.LinkMapper">
+    
+    <select id="getAllLink" resultType="link">
+        select * from `a_link`
+    </select>
+
+    <select id="getLinkById" resultType="link">
+        select * from a_link
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="link">
+        insert into a_link(blog_address, blog_name, image_address, create_time)
+        values
+        (#{blogAddress},#{blogName},#{imageAddress},now());
+    </insert>
+    
+    <delete id="delete">
+        delete from a_link
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+
+    <update id="update" parameterType="link">
+        update a_link
+        <set>
+            <if test="blogAddress != null">
+                blog_address = #{blogAddress},
+            </if>
+            <if test="blogName != null">
+                blog_name = #{blogName},
+            </if>
+            <if test="imageAddress != null">
+                image_address = #{imageAddress},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime}
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <select id="getLinkByCondition" resultType="link">
+        select * from a_link
+        <where>
+            <include refid="sql_condition"/>
+        </where>
+        order by id asc
+        <if test="skip != 0 or take != 0">
+            limit ${skip},${take}
+        </if>
+    </select>
+
+    <select id="size" resultType="int">
+        select count(1) from a_link
+        <where>
+            <include refid="sql_condition"/>
+        </where>
+    </select>
+    
+    <select id="isExistByBlogAddress" resultType="int">
+        select count(1) from a_link
+        <where>
+            blog_address = #{blogAddress}
+        </where>
+    </select>
+
+    <sql id="sql_condition">
+        <if test="condition != null">
+            <if test="condition.blogName != null and condition.blogName != ''">
+                and blog_name like concat('%',#{condition.blogName},'%')
+            </if>
+        </if>
+    </sql>
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace:绑定一个对应的Dao/Mapper接口-->
+<mapper namespace="com.albert.blog.mapper.UserMapper">
+    
+    <select id="getUserByUsernameAndPassword" resultType="user">
+        select * from `a_user`
+        <where>
+            username = #{username} and password = #{password}
+        </where>
+    </select>
+
+    <select id="getUserById" resultType="user">
+        select * from a_user
+        <where>
+            id = #{id}
+        </where>
+    </select>
+    
+</mapper>

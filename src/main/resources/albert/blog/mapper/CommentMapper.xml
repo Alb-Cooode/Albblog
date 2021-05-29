@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace:绑定一个对应的Dao/Mapper接口-->
+<mapper namespace="com.albert.blog.mapper.CommentMapper">
+    
+    <select id="sumOfComment" resultType="int">
+        select count(1) from a_comment
+    </select>
+    
+    <insert id="insert">
+        insert into a_comment (nickname, email, content, avatar,create_time, blog_id, parent_comment_id, admin_comment)
+        values
+        (#{nickname},#{email},#{content},#{avatar},now(),#{blogId},#{parentCommentId},#{adminComment})
+    </insert>
+    
+    <select id="selectByBlogIdNotParentId" resultType="comment">
+        select id,nickname, email, content, avatar,create_time, blog_id, parent_comment_id, admin_comment
+        from a_comment
+        <where>
+            blog_id = #{blogId} and parent_comment_id = -1
+        </where>
+    </select>
+
+    <select id="selectFirstReply" resultType="comment">
+        select id,nickname, email, content, avatar,create_time, blog_id, parent_comment_id, admin_comment
+        from a_comment
+        <where>
+            blog_id = #{blogId} and parent_comment_id = #{topCommentId}
+        </where>
+    </select>
+
+    <select id="selectSecondReply" resultType="comment">
+        select id,nickname, email, content, avatar,create_time, blog_id, parent_comment_id, admin_comment
+        from a_comment
+        <where>
+            blog_id = #{blogId} and parent_comment_id = #{firstReplyId}
+        </where>
+    </select>
+    
+    <select id="selectByParentId" resultType="comment">
+        select id,nickname, email, content, avatar,create_time, blog_id, parent_comment_id, admin_comment
+        from a_comment
+        <where>
+            id = #{parentCommentId}
+        </where>
+    </select>
+
+    <delete id="delete">
+        delete from a_comment
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+
+</mapper>

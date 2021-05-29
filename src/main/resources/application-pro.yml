@@ -1,0 +1,12 @@
+spring:
+  datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://数据库连接名/blog_develop?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+      username: root
+      password:
+
+logging:
+  level:
+    root: warn
+    com.albert: info
+  file: log/blog-pro.log

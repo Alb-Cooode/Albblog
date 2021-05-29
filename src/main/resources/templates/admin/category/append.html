@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--引用公共头部部分-->
+<head th:replace="admin/share/common::head('Alb_Blog_BlogManage')"></head>
+<body>
+
+<!--引用公共导航栏-->
+<div th:replace="admin/share/common::manageMenu"></div>
+
+
+  <div class="m-padded-tb-hugex">
+  <div class="ui attached pointing menu">
+    <div class="ui container">
+      <div class="right menu">
+        <a href="#" th:href="@{/admin/category/append}" class="teal active item">新增</a>
+        <a href="#" th:href="@{/admin/category}" class="item">列表</a>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!--中间内容-->
+  <div  class="m-container-small m-padded-tb-massive">
+    <div class="ui container">
+      <form id="form1" method="post" th:action="@{/admin/category/append}" class="ui form">
+        <div class=" field">
+          <div class="ui left labeled input">
+            <label for="catName" class="ui teal basic label">名称</label>
+            <input type="text" id="catName" name="catName" placeholder="分类名称">
+          </div>
+        </div>
+        <div id="msg_box" style="display: none" class="ui mini negative message">
+          <label id="msg" name="msg" class="ui teal basic label">
+
+          </label>
+        </div>
+        <div class="ui right aligned container">
+          <button type="button" class="ui button" onclick="window.history.go(-1)" >返回</button>
+          <button class="ui teal submit button" type="button" id="btn_submit">提交</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+<div id="br_show">
+  <br>
+  <br>
+  <br>
+</div>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+
+<!--引用公共底部栏-->
+<div th:replace="share/common::footer"></div>
+
+<!--引用公共js资源-->
+<div th:replace="admin/share/common::menu_js_resources"></div>
+
+<script th:src="@{/js/category_append.js}"></script>
+<script th:src="@{/js/regex.js}"></script>
+</body>
+</html>

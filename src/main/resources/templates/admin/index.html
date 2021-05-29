@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--引用公共头部部分-->
+<head th:replace="admin/share/common::head('Alb_Blog_BlogManage')"></head>
+<body>
+
+<!--引用公共导航栏-->
+<div th:replace="admin/share/common::manageMenu"></div>
+
+  <!--中间内容-->
+  <div  class="m-padded-tb-massivex">
+    <div class="ui container">
+      <div class="ui success large  message">
+        <p align="center">Welcome to Albert's own blog</p>
+      </div>
+
+      <img src="/static/images/backimg.jpg" th:src="@{/images/backimg.jpg}" alt="" class="ui rounded bordered fluid image">
+    </div>
+  </div>
+
+<!--引用公共底部栏-->
+<div th:replace="share/common::footer"></div>
+<!--引用公共js资源-->
+<div th:replace="admin/share/common::menu_js_resources"></div>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--引用头部部分-->
+<head th:replace="share/common::head('Alb_Blog:音乐盒')"></head>
+<link rel="stylesheet" href="../static/lib/music/css/zplayer.min.css" th:href="@{/lib/music/css/zplayer.min.css}" />
+<script type="text/javascript" src="../static/lib/music/js/zplayer.min.js" th:src="@{/lib/music/js/zplayer.min.js}"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<body>
+
+<!--引用公共导航-->
+<div th:replace="share/common::menu(4)"></div>
+
+<!--顶部图片-->
+<div class="m-bg-type_outer" style="width: 100%;height: 40%">
+    <img src="../static/images/music.jpg" th:src="@{/images/music.jpg}" alt="" class="ui m-bg image" style="width: 100%;height: 100%">
+    <div class="m-bg-class_cover">
+        <div class="ui container" style="position: relative ;bottom: -540px;">
+            <div class="m-font-size-title m-right-bottom" align="center" style="font-family:'STXingkai'">音乐盒</div>
+            <div class="m-font-size-text-init-title m-margin-top" align="center">音乐能够使我们去到我们的内心深处</div>
+        </div>
+    </div>
+</div>
+
+<div class="ui m-margin- m-opacity" align="center">
+    <div class="ui container box-shadow-max">
+        <div id="player2"></div>
+    </div>
+</div>
+
+<!--引用公共脚部部分-->
+<div th:replace="share/common::footer"></div>
+
+<script>
+    var zp2 = new zplayer({
+        element: document.getElementById("player2"),
+        lrcStart: 1,/*是否开启歌词功能 ，默认false（为true时musics集合中需要传入lrc字段。）*/
+        musics: [{
+            title: "最好的都给你",
+            author: "余佳运",
+            url: "http://music.163.com/song/media/outer/url?id=1845651956.mp3",
+            pic: "https://p1.music.126.net/PTv7Li70ydONxgrtfTcaNw==/109951165986850987.jpg?param=90y90",
+            lrc: "\n[00:21.30]嘈杂世界里 拥挤人海里"+
+                 "\n[00:28.92]每个翻来覆去 全都关于你"+
+                 "\n[00:36.52]我多想告诉你 是个男生都会喜欢你"+
+                 "\n[00:44.22]我的幽默风趣 全都属于你"+
+                 "\n[00:51.33]"+
+                 "\n[00:51.74]不偏 不倚 沿着你的轨迹"+
+                 "\n[00:58.84]我很小心 保管着我和你"+
+                 "\n[01:05.33]最绵长的回忆"+
+                 "\n[01:10.29]"+
+                 "\n[01:10.81]海边的风"+
+                 "\n[01:12.59]屋檐的雨"+
+                 "\n[01:14.46]兜兜转转我还是一样喜欢你"+
+                 "\n[01:20.30]把我最美好的回忆 都给你"+
+                 "\n[01:26.13]没告诉你"+
+                 "\n[01:28.02]都是我说不出口的每个犹豫"+
+                 "\n[01:34.46]你别担心"+
+                 "\n[01:37.65]担心我会不辞而别离去"+
+                 "\n[01:44.51]"+
+                 "\n[01:45.07]最好的都给你"+
+                 "\n[01:47.91]把最好的都给你"+
+                 "\n[01:51.15]我给你"+
+                 "\n[01:53.89]给你 我只想全部都给你"+
+                 "\n[01:59.37]给你 我给你"+
+                 "\n[02:03.59]把最好的都给你"+
+                 "\n[02:11.40]"+
+                 "\n[02:13.53]嘈杂世界里 拥挤人海里"+
+                 "\n[02:21.21]每个翻来覆去 全都关于你"+
+                 "\n[02:28.84]我多想告诉你 是个男生都会喜欢你"+
+                 "\n[02:36.65]我的幽默风趣 全都属于你"+
+                 "\n[02:43.64]"+
+                 "\n[02:44.10]不偏 不倚 沿着你的轨迹"+
+                 "\n[02:51.10]我很小心 保管着我和你"+
+                 "\n[02:57.84]最绵长的回忆"+
+                 "\n[03:02.51]"+
+                 "\n[03:02.91]海边的风"+
+                 "\n[03:04.85]屋檐的雨"+
+                 "\n[03:06.68]兜兜转转我还是一样喜欢你"+
+                 "\n[03:12.56]把我最美好的回忆 都给你"+
+                 "\n[03:18.31]没告诉你" +
+                 "\n[03:20.25]都是我说不出口的每个犹豫" +
+                 "\n[03:26.84]你别担心" +
+                 "\n[03:29.94]担心我会不辞而别离去" +
+                 "\n[03:35.88]" +
+                 "\n[03:36.50]奔向你的我总怕来不及" +
+                 "\n[03:42.08]多想和你老去一睡不醒" +
+                 "\n[03:48.93]" +
+                 "\n[03:51.34]海边的风" +
+                 "\n[03:53.28]屋檐的雨" +
+                 "\n[03:55.20]兜兜转转我还是一样喜欢你" +
+                 "\n[04:00.98]把我最美好的回忆 都给你" +
+                 "\n[04:06.75]没告诉你的" +
+                 "\n[04:08.68]都是我说不出口的每个犹豫" +
+                 "\n[04:17.08]你别担心" +
+                 "\n[04:20.27]担心我会不辞而别离去" +
+                 "\n[04:29.02]" +
+                 "\n[04:30.94]吉他：孙宇辰@CosmicVoiceLab" +
+                 "\n[04:31.96]钢琴：孙宇辰@CosmicVoiceLab" +
+                 "\n[04:32.92]贝斯：孙宇辰@CosmicVoiceLab" +
+                 "\n[04:33.88]和声编写：余佳运@CosmicVoiceLab" +
+                 "\n[04:34.91]混音：余佳运@CosmicVoiceLab" +
+                 "\n[04:35.88]母带工程：Sihan" +
+                 "\n[04:36.78]制作人：余佳运@Cosmic VoiceLab" +
+                 "\n[04:37.71]平面美术设计：侯e\n\n"
+        }]
+    })
+    zp2.init();
+
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+</script>
+<!--引用公共JS资源-->
+<div th:replace="share/common::js_resources"></div>
+</body>
+</html>

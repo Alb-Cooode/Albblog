@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--引用公共头部部分-->
+<head th:replace="admin/share/common::head('Alb_Blog:图片编辑')"></head>
+<body>
+
+<!--引用公共导航栏-->
+<div th:replace="admin/share/common::manageMenu"></div>
+
+  <div class="m-padded-tb-hugex">
+  <div class="ui attached pointing menu">
+    <div class="ui container">
+      <div class="right menu">
+        <a href="#" th:href="@{/admin/picture/append}" class=" item">新增</a>
+        <a href="#" class="teal active item">编辑</a>
+        <a href="#" th:href="@{/admin/picture}" class="item">列表</a>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!--中间内容-->
+  <div  class="m-container-small m-padded-tb-massive">
+    <div class="ui container">
+      <form id="form1" method="post" th:action="@{/admin/picture/modify}" class="ui form">
+        <input type="hidden" name="id" th:value="${picture.id}">
+        <div class=" field">
+          <div class="ui left labeled input m-margin-top">
+            <label class="ui teal basic label">图片名称</label>
+            <input type="text" id="pictureName" name="pictureName" placeholder="图片名称" th:value="${picture.pictureName}">
+          </div>
+          <div class="ui left labeled input m-margin-top">
+            <label class="ui teal basic label">时间地点</label>
+            <input type="text" id="pictureTime" name="pictureTime" placeholder="时间地点" th:value="${picture.pictureTime}">
+          </div>
+          <div class="ui left labeled input m-margin-top">
+            <label class="ui teal basic label">图片地址</label>
+            <input type="text" id="pictureAddress" name="pictureAddress" placeholder="图片地址" th:value="${picture.pictureAddress}">
+          </div>
+          <div class="ui left labeled input m-margin-top">
+            <label class="ui teal basic label">图片描述</label>
+            <input type="text" id="pictureDescription" name="pictureDescription" placeholder="图片描述" th:value="${picture.pictureDescription}">
+          </div>
+        </div>
+
+        <div id="msg_box" style="display: none" class="ui mini negative message">
+          <label id="msg" name="msg" class="ui teal basic label">
+
+          </label>
+        </div>
+
+        <div class="ui right aligned container">
+          <button type="button" class="ui button" onclick="window.history.go(-1)" >返回</button>
+          <button class="ui teal submit button" type="button" id="btn_submit">提交</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+
+<!--引用公共底部栏-->
+<div th:replace="share/common::footer"></div>
+
+
+<!--引用公共js资源-->
+<div th:replace="admin/share/common::menu_js_resources"></div>
+<script th:src="@{/js/regex.js}"></script>
+<script th:src="@{/js/picture_modify.js}"></script>
+</body>
+</html>

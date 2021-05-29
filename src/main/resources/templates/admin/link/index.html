@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--引用公共头部部分-->
+<head th:replace="admin/share/common::head('Alb_Blog:友链管理')"></head>
+<body>
+
+<!--引用公共导航栏-->
+<div th:replace="admin/share/common::manageMenu"></div>
+
+  <div class="m-padded-tb-hugex2">
+  <div class="ui attached pointing menu">
+    <div class="ui container">
+      <div class="right menu">
+        <a href="#" th:href="@{/admin/link/input}" class="item">新增</a>
+        <a href="#" th:href="@{/admin/link}" class="teal active item">列表</a>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!--中间内容-->
+<form th:action="@{/admin/link}" id="form1" th:model_path="@{/admin/link}" method="post">
+  <div  class="m-padded-tb-big">
+    <div class="ui container">
+
+      <div  class="ui secondary segment form">
+        <div class="inline fields">
+          <div class="field">
+            <input type="text" th:value="${condition.blogName}" id="blogName" name="blogName" placeholder="友链名称">
+          </div>
+
+          <div class="field">
+            <button  type="submit" class="ui mini teal basic button"><i class="search icon"></i>搜索</button>
+          </div>
+        </div>
+      </div>
+
+      <table class="ui compact teal table">
+        <thead>
+          <tr align="center">
+            <th>ID</th>
+            <th>博客名称</th>
+            <th>博客地址</th>
+            <th>图片地址</th>
+            <th>添加时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr align="center" th:each="link,iterStat : ${pager.datas}">
+            <td th:text="${iterStat.count}">1</td>
+            <td th:text="${link.blogName}"></td>
+            <td th:text="${link.blogAddress}"></td>
+            <td th:text="${link.imageAddress}"></td>
+            <td th:text="${#strings.substring(link.createTime,0,10)}"></td>
+            <td>
+              <button type="button" submit_url="/blog/admin/link/modify?id=" th:id="${link.id}" onclick="btn_get_submit(this)" class="ui mini teal basic button">
+                <i class="search icon"></i>编辑
+              </button>
+              <button type="button" submit_url="/blog/admin/link/remove?id=" th:id="${link.id}" onclick="btn_get_remove_link_submit(this)" class="ui mini teal basic button">
+                <i class="search icon"></i>删除
+              </button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th colspan="7" >
+              <div class="ui inverted divided stackable grid">
+                <div class="three wide column" align="center">
+                  <a class="item" onclick="split_submit(this)" th:page="${pager.pre}" style="cursor: pointer">上一页</a>
+                </div>
+
+                <div class="ten wide column" align="center">
+                  <p>第 <span th:text="${pager.page}"></span> 页，共 <span th:text="${pager.pages}"></span> 页，共有 <span th:text="${pager.size}"></span> 个友链</p>
+                </div>
+
+                <div class="three wide column" align="center">
+                  <a class="item" onclick="split_submit(this)" th:page="${pager.next}" style="cursor: pointer">下一页</a>
+                </div>
+              </div>
+
+              <div align="center">
+                <a href="#" th:href="@{/admin/link/append}">
+                  <button type="button" class="ui teal button m-mobile-wide m-margin-top"><i class="pencil icon"></i>新增</button>
+                </a>
+              </div>
+
+            </th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</form>
+
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+
+<!--引用公共底部栏-->
+<div th:replace="share/common::footer"></div>
+
+<!--引用公共js资源-->
+<div th:replace="admin/share/common::menu_js_resources"></div>
+<script th:src="@{/js/split.js}"></script>
+<script th:src="@{/js/button.js}"></script>
+
+</body>
+</html>

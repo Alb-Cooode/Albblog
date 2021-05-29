@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--分类数据访问接口映射-->
+<!--namespace:绑定一个对应的Dao/Mapper接口-->
+<mapper namespace="com.albert.blog.mapper.CategoryMapper">
+    
+    <select id="getAllCategoty" resultType="category">
+        select * from `a_category`
+    </select>
+
+    <select id="getCategoryById" resultType="category">
+        select * from a_category
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="category">
+        insert into a_category(catName) values (#{catName});
+    </insert>
+    
+    <delete id="delete">
+        delete from a_category
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+
+    <update id="update" parameterType="category">
+        update a_category
+        <set>
+            <if test="catName != null">
+                catName = #{catName}
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <select id="getCategoryByCondition" resultType="category">
+        select * from a_category
+        <where>
+            <include refid="sql_condition"/>
+        </where>
+        order by id asc
+        <if test="skip != 0 or take != 0">
+            limit ${skip},${take}
+        </if>
+    </select>
+
+    <select id="size" resultType="int">
+        select count(1) from a_category
+        <where>
+            <include refid="sql_condition"/>
+        </where>
+    </select>
+    
+    <select id="isExistByCatName" resultType="int">
+        select count(1) from a_category
+        <where>
+            catName = #{catName}
+        </where>
+    </select>
+
+    <select id="isUsedByBlog" resultType="int">
+        select count(1) from view_blog
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+    <sql id="sql_condition">
+        <if test="condition != null">
+            <if test="condition.catName != null and condition.catName != ''">
+                and catName like concat('%',#{condition.catName},'%')
+            </if>
+        </if>
+    </sql>
+</mapper>

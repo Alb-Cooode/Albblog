@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--分类数据访问接口映射-->
+<!--namespace:绑定一个对应的Dao/Mapper接口-->
+<mapper namespace="com.albert.blog.mapper.BlogMapper">
+
+    <insert id="insert" parameterType="blog">
+        insert into a_blog
+        (user_id,category_id,title,content,image,flag,description,views_num,appreciation,share_statement,
+        commentabled,published,create_time,update_time,sum_comment,recommend)
+        values
+        (#{userId},#{categoryId},#{title},#{content},#{image},#{flag},#{description},#{viewsNum},#{appreciation},#{shareStatement},
+        #{commentabled},#{published},now(),now(),#{sumComment},#{recommend});
+    </insert>
+    
+    <delete id="delete">
+        delete from a_blog
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+
+    <update id="update" parameterType="blog">
+        update a_blog
+        <set>
+            <if test="categoryId != 0">
+                category_id = #{categoryId},
+            </if>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="image != null and image != ''">
+                image = #{image},
+            </if>
+            <if test="flag != null and flag != ''">
+                flag = #{flag},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="viewsNum != 0">
+                views_num = #{viewsNum},
+            </if>
+            <if test="sumComment != 0">
+                sum_comment = #{sumComment},
+            </if>
+                update_time = now(),
+                appreciation = #{appreciation},
+                share_statement = #{shareStatement},
+                commentabled = #{commentabled},
+                published = #{published},
+                recommend = #{recommend}
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+
+    <select id="getBlogById" resultType="blog">
+        select * from a_blog
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+    <select id="getBlogQueryByCondition" resultMap="blogQuery_map">
+        select id,title,catName,category_id,recommend,published,update_time from view_blog
+        <where>
+            <include refid="sql_condition"/>
+        </where>
+        order by update_time desc
+        <if test="skip != 0 or take != 0">
+            limit ${skip},${take}
+        </if>
+    </select>
+
+    <select id="listByRecommend" resultMap="blog_map">
+        select * from view_blog
+        <where>
+            recommend = 1 and published = true
+        </where>
+        order by create_time desc;
+    </select>
+
+    <select id="listAll" resultMap="blog_map">
+        select * from view_blog
+        <where>
+            published = true
+        </where>
+    </select>
+
+    <select id="listBlogs" resultMap="blog_map">
+        select * from view_blog
+        <where>
+            published = true
+        </where>
+        order by create_time desc
+        <if test="skip != 0 or take != 0">
+            limit ${skip},${take}
+        </if>
+    </select>
+
+    <select id="listBlogsByCondition" resultMap="blog_map">
+        select * from view_blog
+        <where>
+            <include refid="sql_condition"/>
+        </where>
+        order by create_time desc
+        <if test="skip != 0 or take != 0">
+            limit ${skip},${take}
+        </if>
+    </select>
+
+    <select id="searchBlog" resultMap="blog_map">
+        select * from view_blog
+        <where>
+            (title like concat('%',#{text},'%') or
+            content like concat('%',#{text},'%') or
+            catName like concat('%',#{text},'%'))
+            and published = true
+        </where>
+
+        order by create_time desc
+        <if test="skip != 0 or take != 0">
+            limit ${skip},${take}
+        </if>
+    </select>
+
+    <select id="sizeByCondition" resultType="int">
+        select count(1) from a_blog
+        <where>
+            <include refid="sql_condition"/>
+        </where>
+    </select>
+
+    <select id="sizeByBlogCondition" resultType="int">
+        select count(1) from a_blog
+        <where>
+            <include refid="sql_condition"/>
+        </where>
+    </select>
+
+    <select id="size" resultType="int">
+        select count(1) from a_blog
+    </select>
+
+    <select id="sizeByText" resultType="int">
+        select count(1) from view_blog
+        <where>
+            (title like concat('%',#{text},'%') or
+            content like concat('%',#{text},'%') or
+            catName like concat('%',#{text},'%'))
+            and published = true
+        </where>
+    </select>
+
+    <select id="sumOfBlogs" resultType="int">
+        select count(1) from view_blog
+    </select>
+
+    <select id="sumOfViews" resultType="int">
+        select sum(views_num) from view_blog
+    </select>
+
+    <select id="commentNumById" resultType="int">
+        select count(1) from a_comment
+        <where>
+            blog_id = #{id}
+        </where>
+    </select>
+    
+    <sql id="sql_condition">
+        <if test="condition != null">
+            <if test="condition.categoryId != null and condition.categoryId != ''">
+                and category_id = #{condition.categoryId}
+            </if>
+            <if test="condition.title != null and condition.title != ''">
+                and title like concat('%',#{condition.title},'%')
+            </if>
+            <if test="condition.published != null">
+                and published = #{condition.published}
+            </if>
+        </if>
+    </sql>
+    
+    <resultMap id="blogQuery_map" type="blogQuery">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="recommend" column="recommend"/>
+        <result property="published" column="published"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="categoryId" column="category_id"/>
+        <association property="category" javaType="category">
+            <id property="id" column="category_id"/>
+            <result property="catName" column="catName"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="comment_map" type="blog">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="recommend" column="recommend"/>
+        <result property="published" column="published"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="categoryId" column="category_id"/>
+        <association property="category" javaType="category">
+            <id property="id" column="category_id"/>
+            <result property="catName" column="catName"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="blog_map" type="blog">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="image" column="image"/>
+        <result property="flag" column="flag"/>
+        <result property="description" column="description"/>
+        <result property="viewsNum" column="views_num"/>
+        <result property="appreciation" column="appreciation"/>
+        <result property="shareStatement" column="share_statement"/>
+        <result property="commentabled" column="commentabled"/>
+        <result property="published" column="published"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="sumComment" column="sum_comment"/>
+        <result property="recommend" column="recommend"/>
+        <association property="category" javaType="category">
+            <id property="id" column="category_id"/>
+            <result property="catName" column="catName"/>
+        </association>
+        <association property="user" javaType="user">
+            <id property="id" column="user_id"/>
+            <result property="username" column="username"/>
+        </association>
+    </resultMap>
+</mapper>

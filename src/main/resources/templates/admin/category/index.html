@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--引用公共头部部分-->
+<head th:replace="admin/share/common::head('Alb_Blog_BlogManage')"></head>
+<body>
+
+<!--引用公共导航栏-->
+<div th:replace="admin/share/common::manageMenu"></div>
+
+  <div class="m-padded-tb-hugex2">
+  <div class="ui attached pointing menu">
+    <div class="ui container">
+      <div class="right menu">
+        <a href="#" th:href="@{/admin/category/append}" class="item">新增</a>
+        <a href="#" th:href="@{/admin/category/}" class="teal active item">列表</a>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!--中间内容-->
+  <form id="form1" th:action="@{/admin/category/}" th:model_path="@{/admin/category}" method="post">
+    <div class="ui container">
+      <div  class="ui secondary segment form">
+
+        <div class="inline fields">
+          <div class="field">
+           <input type="text" th:value="${condition.catName}" id="catName" name="catName" placeholder="标题">
+          </div>
+
+          <div class="field">
+            <button  type="submit" class="ui mini teal basic button"><i class="search icon"></i>搜索</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div  class="m-padded-tb-big">
+    <div class="ui container">
+      <table class="ui compact teal table">
+        <thead>
+          <tr align="center">
+            <th class="four wide column">ID</th>
+            <th class="five wide column">名称</th>
+            <th class="four wide column">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr align="center" data-expended="true" th:each="category : ${pager.datas}">
+            <td th:text="${categoryStat.index + 1}"></td>
+            <td th:text="${category.catName}"></td>
+            <td>
+              <button type="button" submit_url="/blog/admin/category/modify?id=" th:id="${category.id}" onclick="btn_get_submit(this)" class="ui mini teal basic button">
+                <i class="search icon"></i>编辑
+              </button>
+              <button type="button" th:id="${category.id}"  onclick="ajax_remove_submit(this)" class="ui mini teal basic button">
+                <i class="search icon"></i>删除
+              </button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th colspan="6" >
+              <div class="ui inverted divided stackable grid">
+                <div class="five wide column" align="center">
+                  <a class="item" onclick="split_submit(this)" th:page="${pager.pre}" style="cursor: pointer">上一页</a>
+                </div>
+
+                <div class="six wide column" align="center">
+                  <p>第 <span th:text="${pager.page}"></span> 页，共 <span th:text="${pager.pages}"></span> 页，共有 <span th:text="${pager.size}"></span> 个分类</p>
+                </div>
+
+                <div class="five wide column" align="center">
+                  <a class="item" onclick="split_submit(this)" th:page="${pager.next}" style="cursor: pointer">下一页</a>
+                </div>
+              </div>
+              <div align="center">
+              <a href="#" th:href="@{/admin/category/append}">
+                <button type="button" class="ui teal button m-mobile-wide m-margin-top"><i class="pencil icon"></i>新增</button>
+              </a>
+              </div>
+            </th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  </form>
+
+  <br>
+  <br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+  <!--引用公共底部栏-->
+<div th:replace="share/common::footer"></div>
+<!--引用公共js资源-->
+<div th:replace="admin/share/common::menu_js_resources"></div>
+
+</body>
+</html>

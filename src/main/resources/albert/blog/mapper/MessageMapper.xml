@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace:绑定一个对应的Dao/Mapper接口-->
+<mapper namespace="com.albert.blog.mapper.MessageMapper">
+    
+    <select id="sumOfMessage" resultType="int">
+        select count(1) from a_message
+    </select>
+    
+    <select id="selectAllNotParent" resultType="message">
+        select id,nickname,content,avatar,email,parent_message_id,admin_message,create_time from a_message
+        <where>
+            parent_message_id = -1
+        </where>
+        order by create_time desc
+    </select>
+    
+    <select id="selectFirstReply" resultType="message">
+        select id,nickname,content,avatar,email,parent_message_id,admin_message,create_time from a_message
+        <where>
+            parent_message_id = #{topMessageId}
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="selectSecondReply" resultType="message">
+        select id,nickname,content,avatar,email,parent_message_id,admin_message,create_time from a_message
+        <where>
+            parent_message_id = #{firstMessageId}
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="selectByParentId" resultType="message">
+        select id,nickname,content,avatar,email,parent_message_id,admin_message,create_time from a_message
+        <where>
+            parent_message_id = #{parentMessageId}
+        </where>
+        order by create_time desc
+    </select>
+
+    <insert id="insert" parameterType="message">
+        insert into a_message(nickname, content, avatar, email, parent_message_id, admin_message,create_time)
+        values
+        (#{nickname},#{content},#{avatar},#{email},#{parentMessageId},#{adminMessage},now())
+    </insert>
+
+</mapper>

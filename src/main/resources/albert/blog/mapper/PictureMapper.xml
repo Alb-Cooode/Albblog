@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--友链数据访问接口映射-->
+<!--namespace:绑定一个对应的Dao/Mapper接口-->
+<mapper namespace="com.albert.blog.mapper.PictureMapper">
+    
+    <select id="getAllLink" resultType="link">
+        select * from `a_link`
+    </select>
+
+    <select id="getAllPicture" resultType="picture">
+        select * from a_picture
+    </select>
+
+    <select id="getPictureById" resultType="picture">
+        select * from a_picture
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="picture">
+        insert into a_picture(picture_name, picture_address, picture_description, picture_time)
+        values
+        (#{pictureName},#{pictureAddress},#{pictureDescription},#{pictureTime});
+    </insert>
+    
+    <delete id="delete">
+        delete from a_picture
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+
+    <update id="update" parameterType="picture">
+        update a_picture
+        <set>
+            <if test="pictureName != null">
+                picture_name = #{pictureName},
+            </if>
+            <if test="pictureAddress != null">
+                picture_address = #{pictureAddress},
+            </if>
+            <if test="pictureDescription != null">
+                picture_description = #{pictureDescription},
+            </if>
+            <if test="pictureTime != null">
+                picture_time = #{pictureTime}
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <select id="getPictureByCondition" resultType="picture">
+        select * from a_picture
+        <where>
+            <include refid="sql_condition"/>
+        </where>
+        order by picture_time desc
+        <if test="skip != 0 or take != 0">
+            limit ${skip},${take}
+        </if>
+    </select>
+
+    <select id="size" resultType="int">
+        select count(1) from a_picture
+        <where>
+            <include refid="sql_condition"/>
+        </where>
+    </select>
+    
+    <select id="isExistByPictureAddress" resultType="int">
+        select count(1) from a_picture
+        <where>
+            picture_address = #{pictureAddress}
+        </where>
+    </select>
+
+    <sql id="sql_condition">
+        <if test="condition != null">
+            <if test="condition.pictureName != null and condition.pictureName != ''">
+                and picture_name like concat('%',#{condition.pictureName},'%')
+            </if>
+            <if test="condition.pictureTime != null and condition.pictureTime != ''">
+                and picture_time like concat('%',#{condition.pictureTime},'%')
+            </if>
+        </if>
+    </sql>
+</mapper>
